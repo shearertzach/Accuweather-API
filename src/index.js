@@ -1,4 +1,6 @@
 import fetch from 'node-fetch'
+import * as dotenv from 'dotenv'
+
 
 class Accuweather {
   constructor(apiKey, useMetric = false) {
@@ -24,9 +26,8 @@ class Accuweather {
     return json
   }
 
-  async getFiveDayForecast(method, query) {
+  async #getCityInfo(method, query) {
     try {
-      let url
       let locationName
       let locationCode
 
@@ -35,29 +36,39 @@ class Accuweather {
           const zipInfo = await this.#getCityByZip(query)
           locationCode = zipInfo[0].Key
           locationName = zipInfo[0].LocalizedName
-          url = `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationCode}?apikey=${this.apiKey}`
 
           break
         case "cityName":
           const cityInfo = await this.#getCityByName(query)
           locationCode = cityInfo[0].Key
           locationName = cityInfo[0].LocalizedName
-          url = `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationCode}?apikey=${this.apiKey}`
           break
       }
+
+      return { locationCode, locationName }
+    } catch (e) {
+      return e.message
+    }
+  }
+
+  async getFiveDayForecast(method, query) {
+    try {
+      const cityInfo = await this.#getCityInfo(method, query)
+      const url = `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityInfo.locationCode}?apikey=${this.apiKey}`
 
       const res = await fetch(url)
       const json = await res.json()
 
-      return json
+      return json.DailyForecasts
     } catch (e) {
       return e.message
     }
   }
 }
 
+const env = dotenv.config().parsed
 
-const accu = new Accuweather(process.env.ACCUWEATHER_SECRET_KEY)
+const accu = new Accuweather(env.ACCUWEATHER_SECRET_KEY)
 
 accu.getFiveDayForecast('zipCode', 42129)
   .then(info => console.log(info))
