@@ -1,3 +1,6 @@
 {
-  "module": "commonjs",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outFile": "./dist/index.js"
+  }
 }

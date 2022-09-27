@@ -73,3 +73,5 @@ class Accuweather {
     }
   }
 }
+
+module.exports.Accuweather = Accuweather;
