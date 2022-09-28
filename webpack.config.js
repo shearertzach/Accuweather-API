@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+  target: 'node',
   entry: './src/index.ts',
   module: {
     rules: [
@@ -17,8 +18,8 @@ module.exports = {
   output: {
     filename: 'index.js',
     path: path.resolve(__dirname, 'dist'),
-		library: 'accuweatherapi',
-		libraryTarget: 'umd',
-		globalObject: 'this',
+    library: 'accuweatherapi',
+    libraryTarget: 'umd',
+    globalObject: 'this',
   },
 };
