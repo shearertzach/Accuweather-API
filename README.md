@@ -21,5 +21,5 @@ import { Accuweather } from '@zach-shearer/accuweather-api'
 
 const weather = new Accuweather(apiKey, useMetric)
 
-weather.getFiveDayForecast(zipCode) // returns an array of forecasts for the next 5 days
+weather.getFiveDayForecast('zipCode', 55555) // returns an array of forecasts for the next 5 days
 ```
