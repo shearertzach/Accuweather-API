@@ -1,5 +1,3 @@
-const f = require("node-fetch");
-
 class Accuweather {
   apiKey: string;
   useMetric: boolean;
@@ -11,7 +9,7 @@ class Accuweather {
 
   async getCityByZip(zipCode: string): Promise<{ key: string; name: string }> {
     const url = `http://dataservice.accuweather.com/locations/v1/postalcodes/search?apikey=${this.apiKey}&q=${zipCode}`;
-    const res = await f(url);
+    const res = await fetch(url);
 
     if (!res.ok) throw Error("There was an error processing your request.");
 
@@ -23,7 +21,7 @@ class Accuweather {
 
   async getCityByName(city: string): Promise<{ key: string; name: string }> {
     const url = `http://dataservice.accuweather.com/locations/v1/postalcodes/search?apikey=${this.apiKey}&q=${city}`;
-    const res = await f(url);
+    const res = await fetch(url);
 
     if (!res.ok) throw Error("There was an error processing your request.");
 
@@ -64,7 +62,7 @@ class Accuweather {
       const cityInfo = await this.getCityInfo(method, query);
       const url = `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityInfo.locationCode}?apikey=${this.apiKey}`;
 
-      const res = await f(url);
+      const res = await fetch(url);
       const json = await res.json();
 
       return json.DailyForecasts;
