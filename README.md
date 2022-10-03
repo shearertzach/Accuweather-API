@@ -7,6 +7,10 @@
 
 Accuweather's provides a public API to developers. This library/API will allow those who use node related frameworks to access and use the Accuweather API easier.
 
+### Note
+
+This library takes advantage of Node 18's experimental fetch feature due to build errors using node-fetch with Typescript.
+
 ## Installation and Usage
 
 ```bash
